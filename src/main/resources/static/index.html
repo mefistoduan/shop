@@ -10,14 +10,14 @@
 </head>
 <body>
         <div class="getInfo">
-            <p> 加载默认数据</p>
+            <p>加载默认数据</p>
             <span></span>
         </div>
 
         <div class="postInfo">
             <p> 提交数据</p>
             <span>
-                <input type="text" value="123" placeholder="what you want post?">
+                <input type="text" value="1234" placeholder="what you want post?">
                 <button id="confirm">
                     提交
                 </button>
@@ -30,7 +30,15 @@
     });
     
     function getInfo() {
-
+        var url = '/data';//获取
+        var postdata = {};
+        $.post(url,postdata,function(result){
+            var JSON = eval('('+result+')');
+           //todo
+            if(JSON.rs){
+                $('.getInfo span').text(JSON.rs[0].springboot);
+            }
+        });
     }
 </script>
 </html>
