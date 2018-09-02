@@ -12,6 +12,21 @@ import com.mefisto.Entity;
 
 import javax.validation.Valid;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+
+@Controller
+@Scope("prototype")
 @RestController
 public class HelloController {
 
@@ -22,28 +37,22 @@ public class HelloController {
     }
 
 //    服务端口
-    @RequestMapping(value = "/hello")
-    public String hello() {
-        return "hello";
+    @ResponseBody
+    @RequestMapping(value = "/data", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public String getByJSON(@RequestBody JSONObject jsonParam) {
+        // 直接将json信息打印出来
+        System.out.println(jsonParam.toJSONString());
+
+        // 将获取的json数据封装一层，然后在给返回
+        JSONObject result = new JSONObject();
+        result.put("msg", "ok");
+        result.put("method", "json");
+        result.put("data", jsonParam);
+
+        return result.toJSONString();
     }
 
-    @RequestMapping(value = "/data")
-    public List<Entity> data() {
-        List<Entity> list = new ArrayList<Entity>();
 
-        for (int i = 0; i < 10; i++) {
-            Entity Entity = new Entity();
-            Entity.setId(i + 1);
-            Entity.setName("springboot" + i);
-            Entity.setSex("male");
-            Entity.setAge(i + 1);
-            Entity.setRole("developer");
-
-            list.add(Entity);
-        }
-
-        return list;
-    }
 }
 
 //{"rtnCode":0,"rs":[],"rtnMemo":"\u6b63\u5e38"}

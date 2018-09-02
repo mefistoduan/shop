@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 ## 定位模板的目录
 #spring.mvc.view.prefix=classpath:/templates/
 ## 给返回的页面添加后缀名
